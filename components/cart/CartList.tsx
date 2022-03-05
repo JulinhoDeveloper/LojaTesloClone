@@ -1,5 +1,6 @@
-import NextLink from 'next/link';
+import { FC } from 'react';
 
+import NextLink from 'next/link';
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
 
 import { initialData } from '../../database/products';
@@ -15,7 +16,7 @@ interface Props {
     editable?: boolean;
 }
 
-export const CartList  = () => {
+export const CartList: FC<Props> = ({ editable = false })  => {
 
   return (
     <>
@@ -23,7 +24,7 @@ export const CartList  = () => {
            productsInCart.map( product => (
             <Grid container spacing={2} key={ product.slug } sx={{ mb:1 }}>
                 <Grid item xs={3}>
-                    {/* TODO: llevar a la página del producto */}
+                    {/* TODO:leva até a página do produto */}
                     <NextLink href="/product/slug" passHref>
                         <Link>
                             <CardActionArea>
@@ -42,19 +43,23 @@ export const CartList  = () => {
                         <Typography variant='body1'>Tamanho: <strong>M</strong></Typography>
 
                         {
-                          
-                             <ItemCounter />
-                         
-                        }
+                                editable 
+                                ? <ItemCounter />
+                                : <Typography variant='h5'>3 itens</Typography>
+                            }
                         
                     </Box>
                 </Grid>
                 <Grid item xs={2} display='flex' alignItems='center' flexDirection='column'>
                     <Typography variant='subtitle1'>{ `$${ product.price }` }</Typography>
                      
-                            <Button variant='text' color='secondary' >
-                                Remover
-                            </Button>
+                    {
+                            editable && (
+                                <Button variant='text' color='secondary' >
+                                    Remover
+                                </Button>
+                            )
+                        }
     
                 </Grid>
             </Grid>
